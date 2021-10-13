@@ -20,7 +20,8 @@ class _ViewDeatailScreenState extends State<ViewDeatailScreen> {
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+      [SystemUiOverlay.top, SystemUiOverlay.bottom],
+    );
     super.dispose();
   }
 
