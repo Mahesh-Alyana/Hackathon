@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hackathon/screens/viewDetailpage.dart';
+import 'package:hackathon/screens/viewServicepage.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 
 class ServiceScreen extends StatefulWidget {
@@ -12,18 +12,6 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
-  void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    super.initState();
-  }
-
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(
-      [SystemUiOverlay.top, SystemUiOverlay.bottom],
-    );
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -66,7 +54,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             onTap: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewDeatailScreen()),
+                  MaterialPageRoute(builder: (context) => ViewServiceScreen()),
                   (route) => true);
             },
             child: Padding(
@@ -132,7 +120,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             onTap: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewDeatailScreen()),
+                  MaterialPageRoute(builder: (context) => ViewServiceScreen()),
                   (route) => true);
             },
             child: Padding(
@@ -198,7 +186,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             onTap: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewDeatailScreen()),
+                  MaterialPageRoute(builder: (context) => ViewServiceScreen()),
                   (route) => true);
             },
             child: Padding(
@@ -265,7 +253,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
             onTap: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => ViewDeatailScreen()),
+                  MaterialPageRoute(builder: (context) => ViewServiceScreen()),
                   (route) => true);
             },
             child: Padding(

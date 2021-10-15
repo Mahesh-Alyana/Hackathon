@@ -3,38 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/models/signUpmodel.dart';
 import 'package:hackathon/screens/loginScreen.dart';
 import 'package:hackathon/screens/serviceScreen.dart';
 import 'package:http/http.dart' as http;
-
-Future<void> signUp(String email, String password, String rePassword,
-    String firstName, String lastName) async {
-  String url = "https://healupweb.herokuapp.com/auth/users/";
-  SignUpRequestModel requestModel = SignUpRequestModel(
-    email: email,
-    password: password,
-    rePassword: rePassword,
-    firstName: firstName,
-    lastName: lastName,
-  );
-  final response = await http.post(Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
-        "password": password,
-        "re_password": rePassword,
-      }));
-  if (response.statusCode == 200) {
-    print("Successfully completed");
-    print(response.body);
-  } else {
-    print(response.statusCode);
-    throw Exception('Failed to load data!');
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -44,26 +17,61 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late final GlobalKey<FormState> _formKey;
-  void initState() {
-    _formKey = GlobalKey<FormState>();
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    super.initState();
+  Future<void> signUp(String email, String password, String rePassword,
+      String firstName, String lastName) async {
+    String url = "${ApiConfig.host}auth/users/";
+    SignUpRequestModel requestModel = SignUpRequestModel(
+      email: email,
+      password: password,
+      rePassword: rePassword,
+      firstName: firstName,
+      lastName: lastName,
+    );
+    final response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          "email": email,
+          "first_name": firstName,
+          "last_name": lastName,
+          "password": password,
+          "re_password": rePassword,
+        }));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Successfully completed");
+      print(response.body);
+    } else {
+      print(response.statusCode);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(json.decode(response.body)["email"] != null
+                  ? "This is Email is already in us"
+                  : "password show contain group of numerics(123...),alphabets(a,b,c....) and symbols(@#\$%)"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Ok"))
+              ],
+            );
+          });
+
+      throw Exception('Failed to load data!');
+    }
   }
 
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(
-      [SystemUiOverlay.top, SystemUiOverlay.bottom],
-    );
-    super.dispose();
-  }
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _username = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
+  late String firtName;
+  late String lastName;
   int i = 0;
-  // for(i=0;)
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -288,12 +296,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: MaterialButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      for (i = 0; i < _username.text.length; i++) {
+                        if (_username.text[i] == ' ') {
+                          setState(() {
+                            firtName = _username.text.substring(0, i);
+                            lastName = _username.text
+                                .substring(i + 1, _username.text.length);
+                          });
+                          break;
+                        }
+                      }
                       await signUp(
                         _email.text,
                         _password.text,
                         _confirmPassword.text,
-                        _username.text,
-                        _username.text,
+                        firtName,
+                        lastName,
                       );
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -315,9 +333,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: height * 0.01,
-              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Align(

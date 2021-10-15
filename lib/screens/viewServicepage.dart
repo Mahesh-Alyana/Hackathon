@@ -3,28 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 
-class ViewDeatailScreen extends StatefulWidget {
-  const ViewDeatailScreen({Key? key}) : super(key: key);
+class ViewServiceScreen extends StatefulWidget {
+  const ViewServiceScreen({Key? key}) : super(key: key);
 
   @override
-  _ViewDeatailScreenState createState() => _ViewDeatailScreenState();
+  _ViewServiceScreenState createState() => _ViewServiceScreenState();
 }
 
-class _ViewDeatailScreenState extends State<ViewDeatailScreen> {
-  @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(
-      [SystemUiOverlay.top, SystemUiOverlay.bottom],
-    );
-    super.dispose();
-  }
-
+class _ViewServiceScreenState extends State<ViewServiceScreen> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -159,10 +145,7 @@ class _ViewDeatailScreenState extends State<ViewDeatailScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: BottomNavigation(),
-          ),
+          BottomNavigation(),
         ],
       ),
     );
