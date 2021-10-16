@@ -204,6 +204,13 @@ class _LoginScreenState extends State<LoginScreen> {
               child: MaterialButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
                     login(
                       _emailTC.text,
                       _passwordTC.text,

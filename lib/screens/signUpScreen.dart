@@ -37,10 +37,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "re_password": rePassword,
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("Successfully completed");
-      print(response.body);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => ServiceScreen()),
+          (route) => false);
     } else {
-      print(response.statusCode);
       showDialog(
           context: context,
           builder: (context) {
@@ -51,7 +52,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               actions: [
                 TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  SignUpScreen()),
+                          (route) => false);
                     },
                     child: Text("Ok"))
               ],
@@ -296,6 +302,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: MaterialButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
                       for (i = 0; i < _username.text.length; i++) {
                         if (_username.text[i] == ' ') {
                           setState(() {
@@ -313,12 +326,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         firtName,
                         lastName,
                       );
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ServiceScreen()),
-                          (route) => false);
                     }
                   },
                   child: Center(
