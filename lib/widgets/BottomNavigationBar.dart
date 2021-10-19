@@ -36,13 +36,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   onPressed: () {},
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.wallet_giftcard,
-                        size: width * 0.07,
-                        color: Color(0xFF838383),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Image.asset("assets/images/stethoscope.png"),
                       ),
                       Text(
-                        "Offers",
+                        "My Doctor",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w400,
                           fontSize: width * 0.029,
@@ -66,10 +65,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   },
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.add,
-                        size: width * 0.07,
-                        color: Color(0xFF838383),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Image.asset("assets/images/_services.png"),
                       ),
                       Text(
                         "Servies",

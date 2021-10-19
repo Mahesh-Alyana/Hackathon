@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackathon/screens/loginScreen.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -315,7 +317,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Color(0xff24a0a8),
                   borderRadius: BorderRadius.circular(8)),
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Future getToken() async {
+                    final SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    sharedPreferences.remove('token');
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  }
+
+                  getToken();
+                },
                 child: Center(
                   child: Text(
                     "Log Out",

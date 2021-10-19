@@ -37,18 +37,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "re_password": rePassword,
         }));
     if (response.statusCode == 200 || response.statusCode == 201) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => ServiceScreen()),
-          (route) => false);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text("Check Your Email for activation link"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => LoginScreen()),
+                          (route) => false);
+                    },
+                    child: Text("Ok"))
+              ],
+            );
+          });
     } else {
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
               content: Text(json.decode(response.body)["email"] != null
-                  ? "This is Email is already in us"
-                  : "password show contain group of numerics(123...),alphabets(a,b,c....) and symbols(@#\$%)"),
+                  ? "This is Email is already in use"
+                  : json.decode(response.body)["password"] != null
+                      ? "password show contain group of numerics(123...),alphabets(a,b,c....) and symbols(@#\$%)"
+                      : response.body.toString()),
               actions: [
                 TextButton(
                     onPressed: () {
@@ -228,6 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       child: TextFormField(
                         controller: _password,
+                        obscureText: true,
                         validator: MultiValidator([
                           RequiredValidator(
                               errorText: "Password can't be empty"),

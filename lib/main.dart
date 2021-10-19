@@ -1,47 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:hackathon/screens/calenderView.dart';
-import 'package:hackathon/screens/loginScreen.dart';
-import 'package:hackathon/screens/patientsListScreen.dart';
-import 'package:hackathon/screens/reportList.dart';
-import 'package:hackathon/screens/reportUpload.dart';
-import 'package:hackathon/screens/schemesData.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
-import 'package:hackathon/screens/signUpScreen.dart';
-import 'package:hackathon/screens/viewDetailspage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hackathon/models/patient_list_model.dart';
+import 'package:hackathon/providers/patientList_provider.dart';
+import 'package:hackathon/providers/service_provider.dart';
+import 'package:hackathon/providers/slot_provider.dart';
+import 'package:hackathon/screens/homeScreen.dart';
+import 'package:hackathon/screens/slotBookingScreen.dart';
+import 'package:hackathon/screens/splashScreen.dart';
+import 'package:provider/provider.dart';
 
 String? finalToken;
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  void getToken() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var obtainedToken = sharedPreferences.getString("token");
-    finalToken = obtainedToken;
-  }
-
-  void initState() {
-    getToken();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    super.initState();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: finalToken == null ? SignUpScreen() : ServiceScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: ServiceList_provider()),
+        ChangeNotifierProvider.value(value: SlotList_provider()),
+        ChangeNotifierProvider.value(value: PatientList_provider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: SplashScreen(),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/models/loginModel.dart';
+import 'package:hackathon/screens/homeScreen.dart';
 import 'package:hackathon/screens/serviceScreen.dart';
 import 'package:hackathon/screens/signUpScreen.dart';
 import 'package:http/http.dart' as http;
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       sharedPreferences.setString("token", output['access']);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => ServiceScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
           (route) => false);
       return LoginResponseModel.fromJson(
         json.decode(response.body),
@@ -70,12 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+        body: ListView(
+      children: [
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: height * 0.2,
+              height: height * 0.15,
             ),
             Align(
               alignment: Alignment.center,
@@ -269,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ],
         ),
-      ),
-    );
+      ],
+    ));
   }
 }

@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackathon/screens/slotBookingScreen.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 
+// ignore: must_be_immutable
 class ViewServiceScreen extends StatefulWidget {
-  const ViewServiceScreen({Key? key}) : super(key: key);
+  ViewServiceScreen({
+    Key? key,
+    required this.serviceName,
+    required this.description,
+    required this.image,
+    required this.slug,
+    required this.cost,
+  }) : super(key: key);
+  String serviceName;
+  String description;
+  String image;
+  String slug;
+  String cost;
 
   @override
   _ViewServiceScreenState createState() => _ViewServiceScreenState();
@@ -39,11 +53,11 @@ class _ViewServiceScreenState extends State<ViewServiceScreen> {
                     width: width,
                   ),
                 ),
-                Positioned(
-                  top: height * 0.055,
-                  child: Image.asset(
-                    "assets/images/bag.png",
-                    width: width,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Image.network(
+                    "${widget.image}",
+                    width: width * 0.5,
                   ),
                 ),
                 Positioned(
@@ -80,7 +94,7 @@ class _ViewServiceScreenState extends State<ViewServiceScreen> {
             ),
           ),
           Text(
-            " General Physician",
+            "${widget.serviceName}",
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
               fontSize: width * 0.085,
@@ -117,7 +131,7 @@ class _ViewServiceScreenState extends State<ViewServiceScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: Text(
-              "I used to think eye masks were only for flights, but Buki changed that. With their unique collagen fabric, this eye mask takes it to the next level. Put it on for a quick power nap, or just sleep in it overnight - you’ll wake up feeling energized and refreshed. I can confirm that it works better than coffee. It almost feels like someone is gently massaging your eyes while you relax. What’s better than that? ",
+              "${widget.description}",
               style: GoogleFonts.fjordOne(
                 fontSize: width * 0.035,
               ),
@@ -132,7 +146,16 @@ class _ViewServiceScreenState extends State<ViewServiceScreen> {
                   color: Color(0xff24a0a8),
                   borderRadius: BorderRadius.circular(8)),
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SlotBookingScreen(
+                                slug: widget.slug,
+                                cost: widget.cost,
+                              )),
+                      (route) => true);
+                },
                 child: Center(
                   child: Text(
                     "Book Slot",

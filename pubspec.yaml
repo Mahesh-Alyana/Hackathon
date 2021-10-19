@@ -33,6 +33,9 @@ dependencies:
   http:
   shared_preferences: 
   table_calendar: 
+  provider:
+  cached_network_image:
+  dio: 
 
 dev_dependencies:
   flutter_test:
