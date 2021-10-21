@@ -36,6 +36,8 @@ dependencies:
   provider:
   cached_network_image:
   dio: 
+  image_picker: 
+  path: 
 
 dev_dependencies:
   flutter_test:

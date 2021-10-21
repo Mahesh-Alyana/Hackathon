@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hackathon/screens/profileScreen.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/patient_screens/profileScreen.dart';
+import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);

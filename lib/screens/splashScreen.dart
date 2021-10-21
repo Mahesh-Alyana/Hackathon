@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hackathon/screens/homeScreen.dart';
+import 'package:hackathon/screens/patient_screens/homeScreen.dart';
 import 'package:hackathon/screens/loginScreen.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? finalToken;

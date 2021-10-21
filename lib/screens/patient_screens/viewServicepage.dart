@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hackathon/screens/slotBookingScreen.dart';
+import 'package:hackathon/screens/patient_screens/slotBookingScreen.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 
 // ignore: must_be_immutable

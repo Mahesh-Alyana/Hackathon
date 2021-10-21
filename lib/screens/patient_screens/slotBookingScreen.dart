@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/providers/slot_provider.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +36,7 @@ class _SlotBookingScreenState extends State<SlotBookingScreen> {
     var obtainedToken = sharedPreferences.getString("token");
     Dio dio = new Dio();
     dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = "JWT$obtainedToken";
+    dio.options.headers["Authorization"] = "JWT $obtainedToken";
 
     Response response = await dio.post(
       url,

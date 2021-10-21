@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/models/signUpmodel.dart';
 import 'package:hackathon/screens/loginScreen.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {

@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/models/loginModel.dart';
-import 'package:hackathon/screens/homeScreen.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/patient_screens/homeScreen.dart';
 import 'package:hackathon/screens/signUpScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,11 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
     String url = "${ApiConfig.host}auth/jwt/create/";
     LoginRequestModel requestModel =
         LoginRequestModel(email: email, password: password);
+    print(jsonEncode(requestModel.toJson()));
     final response = await http.post(Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(requestModel.toJson()));
+    print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 400) {
       print(response.body);
 

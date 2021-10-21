@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hackathon/screens/patientsListScreen.dart';
-import 'package:hackathon/screens/serviceScreen.dart';
+import 'package:hackathon/screens/doctor_screens/patientsListScreen.dart';
+import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
