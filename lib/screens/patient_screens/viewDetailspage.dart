@@ -136,8 +136,10 @@ class _ViewRatingsState extends State<ViewRatings> {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------
 class ViewDetails extends StatefulWidget {
-  const ViewDetails({Key? key}) : super(key: key);
-
+  ViewDetails({Key? key, required this.percentage, required this.disease})
+      : super(key: key);
+  String percentage;
+  String disease;
   @override
   _ViewDetailsState createState() => _ViewDetailsState();
 }
@@ -212,7 +214,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "You have 50%",
+                      "You have ${widget.percentage}%",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: "poppins",
@@ -232,17 +234,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       ),
                     ),
                     Text(
-                      "heart related",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: "poppins",
-                        fontWeight: FontWeight.w800,
-                        fontSize: width * 0.065,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      "diseases",
+                      "${widget.disease} disease",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: "poppins",

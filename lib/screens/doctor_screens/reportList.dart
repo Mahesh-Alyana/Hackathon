@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/providers/report_list_provider.dart';
 import 'package:hackathon/screens/doctor_screens/reportUpload.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
+import 'package:hackathon/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
@@ -206,37 +207,9 @@ class _ReportList_DState extends State<ReportList_D> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: height * 0.06,
-        backgroundColor: Color(0xff2384A4),
-        title: Container(
-          width: width * 0.23,
-          child: MaterialButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: width * 0.04,
-                ),
-                Text(
-                  "Back",
-                  style: GoogleFonts.ptSans(
-                      fontWeight: FontWeight.w500,
-                      fontSize: width * 0.045,
-                      color: Colors.white),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
       body: Column(
         children: [
+          TopBar(),
           Container(
             height: height * 0.8,
             child: ListView.builder(

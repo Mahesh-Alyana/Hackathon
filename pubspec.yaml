@@ -38,6 +38,7 @@ dependencies:
   dio: 
   image_picker: 
   path: 
+  http_parser:
 
 dev_dependencies:
   flutter_test:

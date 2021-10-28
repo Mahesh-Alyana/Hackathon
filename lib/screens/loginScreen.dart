@@ -4,7 +4,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/models/loginModel.dart';
-import 'package:hackathon/screens/patient_screens/homeScreen.dart';
+import 'package:hackathon/screens/homeScreen.dart';
 import 'package:hackathon/screens/signUpScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var response;
   Future<LoginResponseModel> login(String email, String password) async {
+    await Future<void>.delayed(
+      Duration(seconds: 1),
+    );
     String url = "${ApiConfig.host}auth/jwt/create/";
+    String url1 = "${ApiConfig.host}doctors/Doctor_check/";
     LoginRequestModel requestModel =
         LoginRequestModel(email: email, password: password);
     print(jsonEncode(requestModel.toJson()));
@@ -30,17 +34,21 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         body: jsonEncode(requestModel.toJson()));
     print(response.statusCode);
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200) {
       print(response.body);
-
       Map<String, dynamic> output = json.decode(response.body);
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString("token", output['access']);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (route) => false);
+      final obtainedToken = sharedPreferences.getString('token');
+      // ignore: non_constant_identifier_names
+      final doctor_check = await http.get(Uri.parse(url1), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT $obtainedToken',
+      });
+      sharedPreferences.setInt("doctor_check", doctor_check.statusCode);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
       return LoginResponseModel.fromJson(
         json.decode(response.body),
       );
@@ -53,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
               actions: [
                 TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     },
                     child: Text("Ok"))
               ],

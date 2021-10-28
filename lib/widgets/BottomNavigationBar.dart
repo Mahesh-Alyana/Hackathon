@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackathon/screens/homeScreen.dart';
+import 'package:hackathon/screens/patient_screens/myDoctorScreen.dart';
 import 'package:hackathon/screens/patient_screens/profileScreen.dart';
-import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -33,7 +34,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
               Padding(
                 padding: const EdgeInsets.only(top: 0.0),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (conext) => My_doctor()));
+                  },
                   child: Column(
                     children: [
                       Padding(
@@ -60,17 +64,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => ServiceScreen()),
-                        (route) => true);
+                            builder: (BuildContext context) => HomeScreen()),
+                        (route) => false);
                   },
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
-                        child: Image.asset("assets/images/_services.png"),
+                        child: Icon(
+                          Icons.home_outlined,
+                          color: Color(0x80000000),
+                        ),
                       ),
                       Text(
-                        "Servies",
+                        "Home",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w400,
                           fontSize: width * 0.029,
@@ -95,7 +102,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   child: Column(
                     children: [
                       Icon(
-                        Icons.person,
+                        Icons.person_outline,
                         size: width * 0.07,
                         color: Color(0xFF838383),
                       ),

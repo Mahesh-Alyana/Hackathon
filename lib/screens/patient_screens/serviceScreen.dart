@@ -36,7 +36,6 @@ class _ServiceScreenState extends State<ServiceScreen> {
   @override
   Widget build(BuildContext context) {
     final serviceData = Provider.of<ServiceList_provider>(context);
-    String temp = '';
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(

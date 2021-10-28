@@ -103,7 +103,7 @@ class _PatientsListState extends State<PatientsList> {
                     );
                   }
                   return _isLoading
-                      ? CircularProgressIndicator()
+                      ? Center(child: CircularProgressIndicator())
                       : GestureDetector(
                           onTap: () {
                             Navigator.pushAndRemoveUntil(

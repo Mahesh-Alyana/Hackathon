@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/screens/doctor_screens/patientsListScreen.dart';
+import 'package:hackathon/screens/patient_screens/myDoctorScreen.dart';
+import 'package:hackathon/screens/patient_screens/profileScreen.dart';
+import 'package:hackathon/screens/patient_screens/schemesData.dart';
 import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
+import 'package:hackathon/widgets/BottomNavigationBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,11 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.person,
-              size: width * 0.08,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  (route) => true);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.person,
+                size: width * 0.08,
+              ),
             ),
           )
         ],
@@ -43,13 +56,24 @@ class _HomeScreenState extends State<HomeScreen> {
             height: height * 0.02,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ServiceScreen(),
-                  ),
-                  (route) => true);
+            onTap: () async {
+              SharedPreferences sharedPreferences =
+                  await SharedPreferences.getInstance();
+              // ignore: non_constant_identifier_names
+              final doctor_check = sharedPreferences.getInt('doctor_check');
+              final snackBar = SnackBar(
+                content: const Text('You are not a patient'),
+              );
+
+              doctor_check == 200
+                  ? ScaffoldMessenger.of(context).showSnackBar(snackBar)
+                  : Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ServiceScreen(),
+                      ),
+                      (route) => true,
+                    );
             },
             child: Row(
               children: [
@@ -78,56 +102,42 @@ class _HomeScreenState extends State<HomeScreen> {
             height: height * 0.025,
           ),
           GestureDetector(
-            onTap: () {},
-            child: Row(
-              children: [
-                SizedBox(width: width * 0.05),
-                Container(
-                  height: height * 0.15,
-                  width: height * 0.15,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xffFFB8B8)),
-                  child: Center(
-                    child: Image.asset("assets/images/reports_.png"),
-                  ),
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => My_doctor(),
                 ),
-                SizedBox(width: width * 0.04),
-                Text("Reports",
-                    style: TextStyle(
-                      fontFamily: "PTSans",
-                      fontWeight: FontWeight.w500,
-                      fontSize: width * 0.075,
-                    ))
-              ],
-            ),
-          ),
-          SizedBox(
-            height: height * 0.025,
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Row(
-              children: [
-                SizedBox(width: width * 0.05),
-                Container(
-                  height: height * 0.15,
-                  width: height * 0.15,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff3DCDCD)),
-                  child: Center(
-                    child: Image.asset("assets/images/test_.png"),
+                (route) => true,
+              );
+            },
+            child: Container(
+              width: width,
+              child: Row(
+                children: [
+                  SizedBox(width: width * 0.05),
+                  Container(
+                    height: height * 0.15,
+                    width: height * 0.15,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xff3DCDCD)),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/images/stethoscope1.png",
+                        width: width * 0.5,
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(width: width * 0.04),
-                Text("Test",
-                    style: TextStyle(
-                      fontFamily: "PTSans",
-                      fontWeight: FontWeight.w500,
-                      fontSize: width * 0.075,
-                    ))
-              ],
+                  SizedBox(width: width * 0.04),
+                  Text("My Doctor",
+                      style: TextStyle(
+                        fontFamily: "PTSans",
+                        fontWeight: FontWeight.w500,
+                        fontSize: width * 0.075,
+                      ))
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -136,9 +146,12 @@ class _HomeScreenState extends State<HomeScreen> {
           GestureDetector(
             onTap: () {
               Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => PatientsList()),
-                  (route) => false);
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PatientsList(),
+                ),
+                (route) => true,
+              );
             },
             child: Row(
               children: [
@@ -167,7 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
             height: height * 0.025,
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SchemesData()),
+                  (route) => true);
+            },
             child: Row(
               children: [
                 SizedBox(width: width * 0.05),
@@ -176,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: height * 0.15,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0xfffed008)),
+                      color: Color(0xffD2EEBD)),
                   child: Center(
                     child: Image.asset("assets/images/schemes_.png"),
                   ),
@@ -191,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          BottomNavigation()
         ],
       ),
     );

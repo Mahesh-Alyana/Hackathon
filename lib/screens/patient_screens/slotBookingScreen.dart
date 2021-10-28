@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon/api_services/api_service.dart';
 import 'package:hackathon/providers/slot_provider.dart';
-import 'package:hackathon/screens/patient_screens/serviceScreen.dart';
 import 'package:hackathon/widgets/BottomNavigationBar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +30,7 @@ class _SlotBookingScreenState extends State<SlotBookingScreen> {
     print(formData);
 
     String url = "${ApiConfig.host}main/process_order/${widget.slug}/";
+
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainedToken = sharedPreferences.getString("token");
@@ -90,9 +90,6 @@ class _SlotBookingScreenState extends State<SlotBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int count = 0;
-    String temp = '';
-    int con = 0;
     final slotData = Provider.of<SlotList_provider>(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
@@ -142,89 +139,54 @@ class _SlotBookingScreenState extends State<SlotBookingScreen> {
           ),
           _isLoading
               ? CircularProgressIndicator()
-              : Container(
-                  height: height * 0.75,
-                  width: width,
-                  child: ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          Container(
-                            child: Column(
-                              children: [
-                                Text(
-                                  "${slotData.slotList[index].date}",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: width * 0.065,
+              : slotData.slotList.length == 0
+                  ? Center(
+                      child: Text('Sorry, no slot available'),
+                    )
+                  : Container(
+                      height: height * 0.75,
+                      width: width,
+                      child: ListView.builder(
+                          itemCount: slotData.slotList.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${slotData.slotList[index].date}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: width * 0.065,
+                                    ),
                                   ),
-                                ),
-                                Divider(),
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: width * 0.9,
-                                  height: height * 0.25,
-                                  child: GridView.count(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    childAspectRatio: 3.0 / 1.0,
-                                    crossAxisCount: 3,
-                                    children: List.generate(12, (index) {
-                                      con = 1;
-                                      count += 1;
-                                      return Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: buttonTime(
-                                            "${slotData.slotList[count - 1].timeslot}",
-                                            "${slotData.slotList[count - 1].date}",
-                                            "${widget.cost}",
-                                            Colors.white,
-                                            Colors.black54),
-                                      );
-                                    }),
+                                  Divider(),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: width * 0.9,
+                                    height: height * 0.25,
+                                    child: GridView.count(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      childAspectRatio: 3.0 / 1.0,
+                                      crossAxisCount: 3,
+                                      children: List.generate(
+                                          slotData.timeslot[index].length,
+                                          (index1) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: buttonTime(
+                                              "${slotData.timeslot[index][index1].times}",
+                                              "${slotData.slotList[index].date}",
+                                              "${widget.cost}",
+                                              Colors.white,
+                                              Colors.black54),
+                                        );
+                                      }),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        return Container(
-                          child: Column(
-                            children: [
-                              Text(
-                                "${slotData.slotList[count - 1].date}",
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: width * 0.065,
-                                ),
+                                ],
                               ),
-                              Divider(),
-                              Container(
-                                alignment: Alignment.center,
-                                width: width * 0.9,
-                                height: height * 0.25,
-                                child: GridView.count(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  childAspectRatio: 3.0 / 1.0,
-                                  crossAxisCount: 3,
-                                  children: List.generate(12, (index) {
-                                    con = 1;
-                                    count += 1;
-                                    return Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: buttonTime(
-                                          "${slotData.slotList[(count - 1)].timeslot}",
-                                          "${slotData.slotList[count - 1].date}",
-                                          "${widget.cost}",
-                                          Colors.white,
-                                          Colors.black54),
-                                    );
-                                  }),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      })),
+                            );
+                          })),
           BottomNavigation()
         ],
       ),
