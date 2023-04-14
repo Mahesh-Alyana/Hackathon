@@ -35,7 +35,7 @@ dependencies:
   table_calendar: 
   provider:
   cached_network_image:
-  dio: 
+  dio: ^5.1.1 
   image_picker: 
   path: 
   http_parser:
